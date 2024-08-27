@@ -1,0 +1,29 @@
+# File: .github/workflows/template-sync.yml
+
+on:
+  # cronjob trigger
+  schedule:
+  - cron: "0 0 1 * *"
+  # manual trigger
+  workflow_dispatch:
+
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      # Checkout the template repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Run the actions-template-sync
+      - name: actions-template-sync
+        uses: AndreasAugustin/actions-template-sync@v2
+        with:
+          source_repo_path: asmivaite/hello-world
+          upstream_branch: main
+          pr_labels: template_sync
+
